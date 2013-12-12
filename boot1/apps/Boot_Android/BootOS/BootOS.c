@@ -93,10 +93,12 @@ int read_boot_img(__u32 boot_part_start, __u32 addr)
     __debug("cmdline: %s\n", fb_hdr->cmdline);
 
 
-    if (memcmp(fb_hdr->magic, FASTBOOT_BOOT_MAGIC, 8)) {
+    //we don't check for Android boot magic, it may be a normal Linux
+    //TODO: keep possibility to boot from that kind of partition
+    /*if (memcmp(fb_hdr->magic, FASTBOOT_BOOT_MAGIC, 8)) {
         __inf("boot1: bad boot image magic, maybe not a boot.img?\n");
         return -1;
-    }
+    }*/
 
     kaddr = fb_hdr->kernel_addr;
     ksize_aligned = ALIGN(fb_hdr->kernel_size, fb_hdr->page_size);
