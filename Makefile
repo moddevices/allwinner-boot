@@ -1,4 +1,6 @@
 all:
+	make -f make_boot  -C boot1/driver/nand-lib -j8
+	make -f make_card  -C boot1/driver/nand-lib -j8
 	make -f make_nand  -C boot1/core -j8
 	make -f make_sdmmc -C boot1/core -j8
 
