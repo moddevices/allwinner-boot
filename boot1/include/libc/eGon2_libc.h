@@ -25,7 +25,7 @@
 extern  void  wlibc_uprintf( const char * str, ...);
 extern  void  wlibc_ntprintf( const char * str, ...);
 
-#if 1
+#if 0
 #define __inf(...)          (wlibc_uprintf(__VA_ARGS__))
 
 #define __msg(...)    		(wlibc_uprintf("MSG:L%d(%s):", __LINE__, __FILE__),                 \
