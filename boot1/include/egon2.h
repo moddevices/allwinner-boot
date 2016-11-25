@@ -25,7 +25,7 @@
 
 //#define  CONFIG_AW_FPGA_PLATFORM
 //#define   BOOT1_DEBUG
-#define   SCRIPT_INSTALL_EARLY
+//#define   SCRIPT_INSTALL_EARLY
 #define   SPEED_UP_BOOT
 #define   CONFIG_LOAD_BOOTIMG
 
