@@ -212,7 +212,7 @@ int BootMain(int argc, char **argv)
 #else
 
     //初始化显示设备
-    BoardInit_Display(0,0);
+    //BoardInit_Display(0,0);
 #endif
 
     //开始准备系统数据
@@ -233,7 +233,7 @@ int BootMain(int argc, char **argv)
     		ret = 0;
     	}
     }
-    BoardExit(logo_status, ret);
+    //BoardExit(logo_status, ret);
     
 #ifndef CONFIG_AW_HOMELET_PRODUCT
 	power_int_rel();
