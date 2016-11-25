@@ -81,17 +81,14 @@ int fsys_fat_ReadBPB(__fsys_part_t * pPart)
 
 	if(!memcmp(&buffer[0x36], "FAT16   ", 8))
 	{
-		eGon2_printf("fattype FAT16\n");
 		fsys_fat_aBPBUnit->fattype   = 0;
 	}
 	else if(!memcmp(&buffer[0x36], "FAT12   ", 8))
 	{
-		eGon2_printf("fattype FAT12\n");
 		fsys_fat_aBPBUnit->fattype   = 1;
 	}
 	else
 	{
-		eGon2_printf("fattype FAT32\n");
 		fsys_fat_aBPBUnit->fattype   = 2;
 	}
 
