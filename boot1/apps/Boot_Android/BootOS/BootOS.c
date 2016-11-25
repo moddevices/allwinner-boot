@@ -526,11 +526,7 @@ __s32 BootOS_detect_os_type(__u32 *para_addr, __u32 *kernal_addr, void *os_info,
     __debug("read bootimg done\n");
     #endif
     
-    #ifdef SPEED_UP_BOOT
-    #ifndef CONFIG_AW_HOMELET_PRODUCT
-     WaitForDeInitFinish();
-    #endif
-    #endif
+
 	//这里开始跳转到真正的OS入口
 _boot_pre_err:
     #ifndef SPEED_UP_BOOT
