@@ -107,7 +107,6 @@ void eGon2_start( void )
     else
     {
     	default_clock = eGon2_clock_set_ext(912, 1450);
-    	eGon2_printf("MODified boot1 initializing\n");
     }
 #else
     eGon2_power_init((void *)&BT1_head.prvt_head.core_para);
@@ -130,34 +129,8 @@ void eGon2_start( void )
 #endif
 
     eGon2_key_init();
-    //检查是否需要直接进入fel，通常用于异常出现的情况
-    exception = eGon2_boot_detect();
-    if(!exception)
-    {
-        eGon2_printf("key found, jump to fel\n");
 
-        eGon2_simple_jump_Fel();
-    }
-    else if(exception > 0)
-    {
-		boot1_file_head_t  *boot1_buf;
-
-		boot1_buf = (boot1_file_head_t *)BOOT1_BASE;
-    	boot1_buf->prvt_head.uart_port = exception;
-    }
-    else if(exception == -2)
-    {
-    	eGon2_printf("key found, try to debug mode\n");
-
-    	force_to_card0 = 1;
-    }
-    
-	eGon2_printf("flash init start\n");
-    if(!eGon2_block_device_init())
-    {
-    	eGon2_printf("flash init finish\n");
-    }
-    else
+    if(eGon2_block_device_init())
     {
     	eGon2_printf("flash init failed\n");
 
@@ -175,14 +148,12 @@ void eGon2_start( void )
 
     	eGon2_jump_Fel( );
     }
-    eGon2_printf("fs init ok\n");
     if(FSMount('c'))
     {
     	eGon2_printf("fs mount fail, jump to fel\n");
 
     	eGon2_jump_Fel( );
     }
-    eGon2_printf("fs mount ok\n");
 	
 #ifndef SCRIPT_INSTALL_EARLY
 	hfile = FS_fopen("c:\\script.bin", "r");
@@ -199,7 +170,6 @@ void eGon2_start( void )
 	{
 		eGon2_printf("unable to open script file, check it carefully\n");
 	}
-	eGon2_printf("script finish\n");
 #endif
 
 	//设置电压
@@ -220,17 +190,7 @@ void eGon2_start( void )
 
         char  *str_pointer_array[1];
 		char  str_array0[32] = "c:\\boot.axf";
-		char  str_array1[32] = "c:\\sprite.axf";
-
 		str_pointer_array[0] = str_array0;
-
-		if(eGon2_storage_type_set() == 1)
-		{
-			if(!BT1_head.boot_head.platform[7])
-			{
-				str_pointer_array[0] = str_array1;
-			}
-		}
 
         eGon2_run_app(1, str_pointer_array);
     }
@@ -244,7 +204,7 @@ void eGon2_start( void )
 
 static void print_version(void)
 {
-	eGon2_printf("boot1 version : %s\n", BT1_head.boot_head.platform);
+	eGon2_printf("boot1 version : %s-duo\n", BT1_head.boot_head.platform);
 
 	return;
 }

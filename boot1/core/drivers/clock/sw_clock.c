@@ -749,7 +749,6 @@ __u32 eGon2_clock_set_ext(__u32 clock_frequency, __u32 core_vol)
     CCMU_REG_AHB_APB = reg_val;
     //´òÓ¡·ÖÆµ±È
     tmp = (reg_val>>8)&0x03;
-    eGon2_printf("axi:ahb:apb=%d:%d:%d\n", 1<<(reg_val&0x03), 1<<((reg_val>>4)&0x03), (tmp==0) ? 2:(1<<tmp));
 
     return  _get_corepll();
 }
