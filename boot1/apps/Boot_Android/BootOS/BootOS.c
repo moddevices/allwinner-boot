@@ -553,7 +553,7 @@ _boot_pre_err:
 */
 void BootOS(__u32 para_addr, __u32 kernal_addr)
 {
-    __inf("jump to\n");
+    wlibc_uprintf("booting linux...\n");
     wBoot_jump_to_linux(0, 3495, para_addr, kernal_addr);
 
     {
