@@ -508,10 +508,6 @@ __s32 BootOS_detect_os_type(__u32 *para_addr, __u32 *kernal_addr, void *os_info,
         goto _boot_pre_err;
     }
     #endif
-	//获取需要boot的系统的脚本
-	#ifdef SPEED_UP_BOOT
-    boot_show_logo("c:\\os_show\\bootlogo.bmp", 1, BOOT_LOGO_MEM_BASE);
-    #endif
 
    
 	ret = PreBootOS((char *)&os_img_info, kernal_addr, para_addr, logo_status);
