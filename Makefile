@@ -9,3 +9,6 @@ clean:
 	rm -f boot1/core/boot1_nand
 	rm -f boot1/driver/drv_nand/bsp_nfc_boot1_for_boot.lib
 	rm -f boot1/driver/drv_nand/bsp_nfc_boot1_for_card.lib
+	rm -f pack/chips/sun7i/eGon/boot1_nand.bin
+	rm -f workspace/egon/boot1_nand.bin
+	rm -f workspace/wboot/bootfs/boot.axf
