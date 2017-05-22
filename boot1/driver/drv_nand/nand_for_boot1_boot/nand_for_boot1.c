@@ -10,7 +10,12 @@ static __u32 nand_good_block_ratio_flag = 0;
 static __u32 nand_good_blk_ratio = 0;
 
 
+#ifdef NAND_PRINT_ENABLED
 extern __s32 NAND_Print(const char * str, ...);
+#else
+#define NAND_Print(...)
+#endif
+
 /*
 ************************************************************************************************************************
 *                       READ ONE SINGLE PAGE
