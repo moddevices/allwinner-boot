@@ -466,9 +466,11 @@ void *NAND_IORemap(unsigned int base_addr, unsigned int size)
 *
 **********************************************************************************************************************
 */
+#ifdef NAND_PRINT_ENABLED
 int NAND_Print(const char * str, ...)
 {
 //    wlibc_uprintf(str);
 
     return 0;
 }
+#endif

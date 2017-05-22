@@ -580,7 +580,7 @@ __u32 eGon2_clock_set(__u32 clock_name, __u32 clock_frequency)
     if((!clock_frequency) || (clock_frequency > 2 * 1024 * 1024))
     {
         //默认频率
-        clock_frequency = 384;
+        clock_frequency = 912;
     }
     else if(clock_frequency < 24)
     {
@@ -684,7 +684,7 @@ __u32 eGon2_clock_set_ext(__u32 clock_frequency, __u32 core_vol)
     if((!clock_frequency) || (clock_frequency > 2 * 1024 * 1024))
     {
         //默认频率
-        clock_frequency = 384;
+        clock_frequency = 912;
     }
     else if(clock_frequency < 24)
     {
@@ -712,7 +712,7 @@ __u32 eGon2_clock_set_ext(__u32 clock_frequency, __u32 core_vol)
 			}
 			if(!volt_freq_table[i][0])
 			{
-				clock_frequency = 384;
+				clock_frequency = 912;
 				break;
 			}
 		}

@@ -21,14 +21,13 @@
 #include "include.h"
 #include  "axp_i.h"
 
-#define DCDC2_VALUE_FOR_BOOT    (1320)      //define dcdc2 to 1.32v for boot
+#define DCDC2_VALUE_FOR_BOOT    (1450)      //define dcdc2 to 1.45v for boot
 
 
 extern  __u32 PMU_type;
 
 extern  __u32 trans_dcdc2_user_set;
 
-static  __u32 power_step_level;
 /*
 ************************************************************************************************************
 *
@@ -192,8 +191,6 @@ __s32 eGon2_power_init(void *power_para)
     __u8  reg_addr, value;
     __u8  reg_addr1,value1;
     boot_core_para_t   *core_para = (boot_core_para_t *)power_para;
-    __u32 dcin_exist, bat_exist;
-    __u32 bat_vol;
 
     //try to check if the pmu is AXP199
     reg_addr = BOOT_POWER20_VERSION;
@@ -227,7 +224,6 @@ __s32 eGon2_power_init(void *power_para)
 
         return -1;
     }
-    eGon2_printf("pmu type = %d\n", PMU_type);
     eGon2_power_data_trans();
     //为兼容新旧版本IC，取消PMU硬件检测RDC功能
     if(PMU_type == PMU_TYPE_AXP209)
@@ -258,15 +254,7 @@ __s32 eGon2_power_init(void *power_para)
 
     //使能库仑计
 	eGon2_power_enable_coulomb();
-    //检测电压，决定是否开机
-    eGon2_power_get_dcin_battery_exist(&dcin_exist, &bat_exist);
-	//先判断条件，如果上次关机记录的电量百分比<=5%,同时库仑计值小于5mAh，则关机，否则继续判断
-	eGon2_power_get_battery_vol(&bat_vol);
-	eGon2_printf("bat vol = %d mv\n", bat_vol);
-	if((bat_vol < 3400) && (!dcin_exist))
-	{
-		eGon2_set_power_off_vol(); //到此步骤应该关机，不会继续运行。
-	}
+
     __debug("core_para->vol_threshold =%d\n",core_para->vol_threshold);
     __debug("core_para->user_set_core_vol =%d\n",core_para->user_set_core_vol);
     __debug("core_para->user_set_clock =%d\n",core_para->user_set_clock);
@@ -276,78 +264,7 @@ __s32 eGon2_power_init(void *power_para)
 	{
 		core_para->vol_threshold = 3600;
 	}
-    if(value1 & 0x80)				            //检测标志位，1有效
-	{
-		int bat_cou;
-		int bat_value;
 
-		bat_value = value1 & 0x7f;  //电池百分比
-		bat_cou = ABS(Get_Bat_Coulomb_Count());
-		if((bat_value <= 0) && bat_cou < 30)     //比例小于5%同时库仑计值小于6，则不开机
-		{
-			eGon2_printf("bat_cou=%x\n", bat_cou);
-			if(dcin_exist)
-			{
-				if(bat_vol > (core_para->vol_threshold+100))
-				{
-					_axp_clr_status();
-					power_step_level = BATTERY_RATIO_ENOUGH;
-					eGon2_printf("dcin_exist\n");
-				}
-				else
-				{
-					power_step_level = BATTERY_RATIO_TOO_LOW_WITH_DCIN;
-				}
-			}
-			else
-			{
-				if(bat_vol > core_para->vol_threshold)
-				{
-					power_step_level = BATTERY_RATIO_ENOUGH;
-					_axp_clr_status();
-					eGon2_printf("bat_vol > %d\n",core_para->vol_threshold);
-				}
-				else
-				{
-					power_step_level = BATTERY_RATIO_TOO_LOW_WITHOUT_DCIN;
-				}
-			}
-			eGon2_printf("power_step_level =%x, bat_vol = %x\n", power_step_level,bat_vol);
-		}
-		else															//其中一个条件不满足，就可以开机
-		{
-			power_step_level = BATTERY_RATIO_ENOUGH;
-		}
-	}
-	else
-	{
-		if(dcin_exist)
-		{
-//			if(bat_vol > 3900)
-//			{
-//				_axp_clr_status();
-				power_step_level = BATTERY_RATIO_ENOUGH;
-				__debug("no baterry ratio flag,dcin_exist,set BATTERY_RATIO_ENOUGH\n");
-//			}
-//			else
-//			{
-//				power_step_level = BATTERY_RATIO_TOO_LOW_WITH_DCIN;
-//			}
-		}
-    	else
-    	{
-    		if(bat_vol >= core_para->vol_threshold)
-    		{
-    			power_step_level = BATTERY_RATIO_ENOUGH;
-    		}
-    		else
-    		{
-    			power_step_level = BATTERY_RATIO_TOO_LOW_WITHOUT_DCIN;
-    		}
-    	}
-        
-}
-     __debug("after set,power_step_level=%d\n",power_step_level);
     //set dcdc2 value
     eGon2_power_set_dcdc2(core_para->user_set_core_vol);
     //eGon2_power_set_dcdc3(1250);
@@ -590,12 +507,12 @@ __s32 eGon2_power_check_startup(void)
         }
         if(value == 0x0e)		//表示前一次是在系统状态，下一次应该也进入系统
         {
-        	eGon2_printf("pre sys mode\n");
+        	//eGon2_printf("pre sys mode\n");
         	return -1;
         }
         else if(value == 0x0f)      //表示前一次是在boot standby状态，下一次也应该进入boot standby
     	{
-    		eGon2_printf("pre boot mode\n");
+    		//eGon2_printf("pre boot mode\n");
     		return 0;
     	}
 
@@ -610,13 +527,13 @@ __s32 eGon2_power_check_startup(void)
 		reg_addr = BOOT_POWER20_DATA_BUFFER11;
         if(startup_trigger==AXP_POWER_ON_BY_POWER_TRIGGER)    //如果ACIN/VBUS存在且由ACIN/VBUS触发开机，则power_off
         {
-        	eGon2_printf("power trigger\n");
+        	//eGon2_printf("power trigger\n");
 	        tmp_value = 0x0f;
 	        ret = 0;
 	    }
 	    else
 	    {
-            eGon2_printf("key trigger\n");
+            //eGon2_printf("key trigger\n");
 	    	tmp_value = 0x0e;
 	    	ret = 1;
 	    }
@@ -853,7 +770,7 @@ __s32 eGon2_set_power_off_vol(void) //设置关机之后，PMU硬件下次开机电压为3.3V
 */
 __s32 eGon2_get_power_vol_level(void)
 {
-	return power_step_level;
+	return BATTERY_RATIO_ENOUGH;
 }
 /*
 ************************************************************************************************************

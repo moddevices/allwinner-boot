@@ -63,7 +63,11 @@ extern void NAND_RbInterrupt(void);
 
 extern void* NAND_Malloc(unsigned int Size);
 extern void NAND_Free(void *pAddr, unsigned int Size);
+#ifdef NAND_PRINT_ENABLED
 extern int NAND_Print(const char * str, ...);
+#else
+#define NAND_Print(...)
+#endif
 
 //define the memory set interface
 #define MEMSET(x,y,z)            			memset((x),(y),(z))
@@ -78,11 +82,15 @@ extern int NAND_Print(const char * str, ...);
 #define FREE(x,size)                    	NAND_Free((x),(size))
 
 //define the message print interface
+#ifdef NAND_PRINT_ENABLED
 #define PRINT(...)							NAND_Print(__VA_ARGS__)
-
 #define DBUG_MSG(...)
-
 #define DBUG_INF(...)                       NAND_Print(__VA_ARGS__)
+#else
+#define PRINT(...)
+#define DBUG_MSG(...)
+#define DBUG_INF(...)
+#endif
 
 
 #endif //__NAND_OSAL_H__
