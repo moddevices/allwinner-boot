@@ -2,6 +2,7 @@ all:
 	make -f make_boot -C boot1/driver/nand-lib -j8
 	make -f make_nand -C boot1/core -j8
 	make -C boot1/apps/Boot_Android -j8
+	./pack/pctools/linux/mod_update/update_boot1 ./workspace/egon/boot1_nand.bin ./script.bin mod-duo
 
 clean:
 	find . -name "*.o" -delete
