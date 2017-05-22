@@ -507,12 +507,12 @@ __s32 eGon2_power_check_startup(void)
         }
         if(value == 0x0e)		//表示前一次是在系统状态，下一次应该也进入系统
         {
-        	eGon2_printf("pre sys mode\n");
+        	//eGon2_printf("pre sys mode\n");
         	return -1;
         }
         else if(value == 0x0f)      //表示前一次是在boot standby状态，下一次也应该进入boot standby
     	{
-    		eGon2_printf("pre boot mode\n");
+    		//eGon2_printf("pre boot mode\n");
     		return 0;
     	}
 
@@ -527,13 +527,13 @@ __s32 eGon2_power_check_startup(void)
 		reg_addr = BOOT_POWER20_DATA_BUFFER11;
         if(startup_trigger==AXP_POWER_ON_BY_POWER_TRIGGER)    //如果ACIN/VBUS存在且由ACIN/VBUS触发开机，则power_off
         {
-        	eGon2_printf("power trigger\n");
+        	//eGon2_printf("power trigger\n");
 	        tmp_value = 0x0f;
 	        ret = 0;
 	    }
 	    else
 	    {
-            eGon2_printf("key trigger\n");
+            //eGon2_printf("key trigger\n");
 	    	tmp_value = 0x0e;
 	    	ret = 1;
 	    }
