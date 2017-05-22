@@ -217,11 +217,7 @@ int BootMain(int argc, char **argv)
 
     //开始准备系统数据
     //检测电压状态
-    if(check_power_status())
-    {
-    	ret = -1;
-    }
-    else
+
     {
 //    	power_int_reg();	//启用中断检测vbus
     	if(BootOS_detect_os_type(&para_addr, &kernal_addr, (void *)global_info, &logo_status))
