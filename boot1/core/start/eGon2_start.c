@@ -77,11 +77,7 @@ void eGon2_start( void )
     print_version();
 
     #ifdef SCRIPT_INSTALL_EARLY
-    if(!script_relocation())
-    {
-    	eGon2_printf("script installed early ok\n");
-    }
-    else
+    if(script_relocation())
     {
     	eGon2_printf("script installed early failed\n");
     }

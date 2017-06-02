@@ -3,3 +3,5 @@ boot1/core/boot1_nand
 boot1/driver/drv_nand/bsp_nfc_boot1_for_boot.lib
 boot1/driver/drv_nand/bsp_nfc_boot1_for_card.lib
 pack/chips/sun7i/eGon/boot1_nand.bin
+sys_config.fex
+sys_config.bin
