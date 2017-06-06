@@ -21,7 +21,7 @@
 #include "include.h"
 #include  "axp_i.h"
 
-#define DCDC2_VALUE_FOR_BOOT    (1450)      //define dcdc2 to 1.45v for boot
+#define DCDC2_VALUE_FOR_BOOT    (1425)      //define dcdc2 for boot
 
 
 extern  __u32 PMU_type;

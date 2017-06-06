@@ -21,7 +21,7 @@
 #ifndef   _AXP_I_H_
 #define   _AXP_I_H_
 
-#define DCDC2_VALUE_FOR_BOOT    (1450)      //define dcdc2 to 1.45v for boot
+#define DCDC2_VALUE_FOR_BOOT    (1425)      //define dcdc2 for boot
 #define AXP20_ADDR              (0x68>>1)
 #define AXP19_ADDR              (0x68>>1)
 #define AXP18_ADDR              (0x2C>>1)
