@@ -92,6 +92,7 @@ void eGon2_start( void )
         if(default_clock != BT1_head.prvt_head.core_para.user_set_clock)
         {
         	default_clock = eGon2_clock_set_ext(BT1_head.prvt_head.core_para.user_set_clock, BT1_head.prvt_head.core_para.user_set_core_vol);
+        	eGon2_printf("set dcdc2=%d, clock=%d succeeded\n", BT1_head.prvt_head.core_para.user_set_core_vol, default_clock);
         }
     }
     else
