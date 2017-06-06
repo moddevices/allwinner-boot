@@ -554,6 +554,12 @@ _boot_pre_err:
 void BootOS(__u32 para_addr, __u32 kernal_addr)
 {
     wlibc_uprintf("booting linux...\n");
+
+    {
+        __s32 tick;
+        for(tick = 30000; tick>0; tick --);
+    }
+
     wBoot_jump_to_linux(0, 3495, para_addr, kernal_addr);
 
     {
