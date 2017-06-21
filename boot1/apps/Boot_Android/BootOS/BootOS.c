@@ -316,9 +316,12 @@ static __s32 boot_dsipatch_kernal(boot_sys_img_set_t  *os_img, __u32 *kernal_add
 	hd_file = wBoot_fopen("c:\\linux\\u-boot.bin", "rb");
 	if(!hd_file)
 	{
-    	__inf("open img file c:\\linux\\u-boot.bin failed\n");
-
-    	goto dispath_error;
+		hd_file = wBoot_fopen("c:\\u-boot.bin", "rb");
+		if(!hd_file)
+		{
+			__inf("open img file u-boot.bin failed\n");
+			goto dispath_error;
+		}
 	}
 	file_length = wBoot_flen(hd_file);
 	wBoot_fread((void *)(*kernal_addr), 1, file_length, hd_file);
