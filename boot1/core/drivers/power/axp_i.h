@@ -25,7 +25,7 @@
 #define ABS(x) ((x > 0)?(x):(-(x)))
 
 
-#define DCDC2_VALUE_FOR_BOOT    (1425)      //define dcdc2 for boot
+#define DCDC2_VALUE_FOR_BOOT    (1450)      //define dcdc2 for boot
 #define AXP20_ADDR              (0x68>>1)
 #define AXP19_ADDR              (0x68>>1)
 #define AXP18_ADDR              (0x2C>>1)
