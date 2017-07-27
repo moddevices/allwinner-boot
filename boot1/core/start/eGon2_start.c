@@ -97,8 +97,8 @@ void eGon2_start( void )
     }
     else
     {
-    	eGon2_printf("set dcdc2 failed, set default clock 912M\n");
-    	default_clock = eGon2_clock_set_ext(912, 1450);
+    	eGon2_printf("set dcdc2 failed, set default clock 1008M\n");
+    	default_clock = eGon2_clock_set_ext(1008, 1450);
     }
 #else
     eGon2_power_init((void *)&BT1_head.prvt_head.core_para);
